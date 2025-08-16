@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BrightPay Bank</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+  }
+
+  body {
+    background: linear-gradient(180deg, #1e293b, #0f172a);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    overflow-x: hidden;
+    color: #e2e8f0;
+  }
+
+  .container {
+    max-width: 480px;
+    width: 100%;
+    background: #1e293b;
+    border-radius: 28px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  }
+
+  .container:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  }
+
+  header {
+    background: linear-gradient(135deg, #7c3aed, #22d3ee);
+    color: white;
+    text-align: center;
+    padding: 35px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.15), transparent);
+    animation: rotate 15s linear infinite;
+  }
+
+  header .logo {
+    font-size: 2.4rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  header p {
+    font-size: 1.1rem;
+    opacity: 0.85;
+    margin-top: 10px;
+    position: relative;
+    z-index: 1;
+  }
+
+  main {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+  }
+
+  .instructions {
+    background: #334155;
+    color: #bfdbfe;
+    padding: 20px;
+    border-radius: 14px;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    border-left: 5px solid #22d3ee;
+    animation: slideIn 0.6s ease;
+  }
+
+  .pin-section label {
+    font-weight: 600;
+    margin-bottom: 10px;
+    display: block;
+    color: #e2e8f0;
+    font-size: 1.05rem;
+  }
+
+  .pin-section input {
+    width: 100%;
+    padding: 16px;
+    border-radius: 14px;
+    border: 1px solid #475569;
+    background: #2d3748;
+    color: #e2e8f0;
+    font-size: 1.4rem;
+    text-align: center;
+    letter-spacing: 8px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .pin-section input:focus {
+    outline: none;
+    border-color: #7c3aed;
+    box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.2);
+  }
+
+  .submit-btn {
+    background: linear-gradient(135deg, #22d3ee, #7c3aed);
+    color: white;
+    padding: 18px;
+    border: none;
+    border-radius: 14px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .submit-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(124, 58, 237, 0.4);
+  }
+
+  .balance-card, .card {
+    background: #2d3748;
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  }
+
+  .balance-card:hover, .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  }
+
+  .balance-card h2, .card h2 {
+    color: #22d3ee;
+    margin-bottom: 8px;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  .balance-card p, .card p {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #f8fafc;
+  }
+
+  .card-icon {
+    font-size: 2.5rem;
+    opacity: 0.7;
+  }
+
+  .actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px;
+  }
+
+  .action-btn {
+    background: linear-gradient(135deg, #22d3ee, #7c3aed);
+    color: white;
+    padding: 16px;
+    border: none;
+    border-radius: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .action-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(124, 58, 237, 0.4);
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  #savingsCard {
+    background: linear-gradient(135deg, #1e40af, #60a5fa);
+  }
+
+  #insuranceCard {
+    background: linear-gradient(135deg, #6b21a8, #c084fc);
+  }
+
+  #liveBetterCard {
+    background: linear-gradient(135deg, #ea580c, #fb923c);
+  }
+
+  footer {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #94a3b8;
+    padding: 20px;
+    background: #1e293b;
+  }
+
+  /* Animations */
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .container, .balance-card, .card, .submit-btn, .action-btn {
+    animation: slideIn 0.6s ease;
+  }
+
+  /* Responsive Styles */
+  @media (max-width: 480px) {
+    header .logo { font-size: 2rem; }
+    main { padding: 20px; gap: 18px; }
+    .balance-card, .card { padding: 18px; grid-template-columns: 1fr; gap: 10px; }
+    .card-icon { margin-top: 10px; }
+    .action-btn { padding: 14px; }
+    .pin-section input { font-size: 1.2rem; padding: 14px; letter-spacing: 5px; }
+    .submit-btn { font-size: 1.05rem; padding: 16px; }
+  }
+
+  @media (min-width: 481px) and (max-width: 768px) {
+    header .logo { font-size: 2.2rem; }
+    .container { max-width: 520px; }
+  }
+
+  @media (min-width: 769px) {
+    .container { max-width: 600px; }
+    header .logo { font-size: 2.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LOGIN PAGE -->
+<div class="container" id="loginPage">
+  <header>
+    <div class="logo">BrightPay</div>
+    <p>Enter your 4-digit PIN</p>
+  </header>
+  <main>
+    <div class="instructions">
+      <p><strong>Instructions:</strong></p>
+      <ul>
+        <li><strong>1234</strong> - Normal mode: Full access.</li>
+        <li><strong>5678</strong> - Danger mode:  Only a limited balance is shown (pre-set by the user).</li>
+      </ul>
+    </div>
+
+    <div class="pin-section">
+      <label for="pin">Remote PIN</label>
+      <input type="password" id="pin" maxlength="4" placeholder="____">
+    </div>
+    <button class="submit-btn" onclick="login()">Submit</button>
+  </main>
+  <footer> BrightPay Bank
+    <p>This is a student project for educational purposes only. Not affiliated with any real bank.</p>
+  <p>Reminder: Never share your PIN. Use this app for demonstration purposes only.</p>
+  </footer>
+</div>
+
+<!-- DASHBOARD PAGE -->
+<div class="container hidden" id="dashboard">
+  <header>
+    <div class="logo">BrightPay</div>
+    <p>Welcome!</p>
+  </header>
+  <main>
+    <div class="balance-card">
+      <div>
+        <h2>Available Balance</h2>
+        <p id="mainBalance">R 0.00</p>
+      </div>
+      <div class="card-icon">💰</div>
+    </div>
+
+    <div id="savingsCard" class="card hidden">
+      <div>
+        <h2>Savings Plans</h2>
+        <p>Track your goals here</p>
+      </div>
+      <div class="card-icon">🏦</div>
+    </div>
+
+    <div id="insuranceCard" class="card hidden">
+      <div>
+        <h2>Insurance</h2>
+        <p>Protect yourself & family</p>
+      </div>
+      <div class="card-icon">🛡️</div>
+    </div>
+
+    
+
+    <div class="actions">
+      <button class="action-btn">Send Money</button>
+      <button class="action-btn">Deposit</button>
+      <button class="action-btn">Withdraw</button>
+      <button class="action-btn">Transactions</button>
+    </div>
+  </main>
+  <footer> BrightPay Bank
+    <p>This is a student project for educational purposes only. Not affiliated with any real bank.</p>
+  <p>Reminder: Never share your PIN. Use this app for demonstration purposes only.</p>
+  </footer>
+</div>
+
+<script>
+function login() {
+  const pin = document.getElementById('pin').value;
+  const loginPage = document.getElementById('loginPage');
+  const dashboard = document.getElementById('dashboard');
+  const mainBalance = document.getElementById('mainBalance');
+  const savingsCard = document.getElementById('savingsCard');
+  const insuranceCard = document.getElementById('insuranceCard');
+  const liveBetterCard = document.getElementById('liveBetterCard');
+
+  if(pin === '1234') { // Normal mode
+    localStorage.setItem('mode','normal');
+    loginPage.classList.add('hidden');
+    dashboard.classList.remove('hidden');
+    mainBalance.textContent = 'R 12,450.75';
+    savingsCard.classList.remove('hidden');
+    insuranceCard.classList.remove('hidden');
+    liveBetterCard.classList.remove('hidden');
+  } else if(pin === '5678') { // Danger mode
+    localStorage.setItem('mode','danger');
+    loginPage.classList.add('hidden');
+    dashboard.classList.remove('hidden');
+    mainBalance.textContent = 'R 3000.00  ';
+    savingsCard.classList.remove('hidden');
+    insuranceCard.classList.remove('hidden');
+    liveBetterCard.classList.remove('hidden');
+    console.log('🚨 Silent alert sent to guardian/security');
+    setTimeout(()=>{
+      alert('Session expired for safety.');
+      dashboard.classList.add('hidden');
+      loginPage.classList.remove('hidden');
+      localStorage.removeItem('mode');
+    },10000);
+  } else {
+    alert('Invalid PIN');
+  }
+}
+</script>
+
+</body>
+</html>
